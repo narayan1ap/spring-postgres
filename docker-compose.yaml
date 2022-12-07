@@ -9,17 +9,20 @@ services:
     networks:
       - spring-postgres
   db:
+    container_name: postgres_container
     image: postgres
     restart: always
-    secrets:
-      - db-password
     volumes:
-      - db-data:/var/lib/postgresql/data
+       - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     networks:
       - spring-postgres
     environment:
-      - POSTGRES_DB=example
-      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+      POSTGRES_DB: example
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /data/postgres
 volumes:
   db-data:
 secrets:
