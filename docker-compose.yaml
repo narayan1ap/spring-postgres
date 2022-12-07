@@ -22,13 +22,12 @@ services:
       - spring-postgres
     environment:
       POSTGRES_DB: example
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_PASSWORD: changeme
       PGDATA: /data/postgres
 volumes:
   db-data:
-secrets:
-  db-password:
-    file: db/password.txt
+# secrets:
+#   db-password:
+#     file: db/password.txt
 networks:
   spring-postgres:
