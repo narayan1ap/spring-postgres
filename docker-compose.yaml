@@ -5,29 +5,28 @@ services:
     ports:
       - 8080:8080
     environment:
-      - POSTGRES_DB=example
-      - POSTGRES_PASSWORD=changeme
-      - POSTGRES_USER=postgres
+      - MYSQL_DATABASE=mydb
+      - MYSQL_PASSWORD=mypass
+      - MYSQL_USER=myuser
     networks:
-      - spring-postgres
+      - spring-mysql
   db:
-    container_name: postgres_container
-    image: postgres
-    restart: always
-    volumes:
-       - db-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - spring-postgres
-    environment:
-      POSTGRES_DB: example
-      POSTGRES_PASSWORD: changeme
-      PGDATA: /data/postgres
+  restart: always
+  image: mariadb
+  container_name: myapp_db
+  environment:
+    - MYSQL_USER=myuser
+    - MYSQL_PASSWORD=mypass
+    - MYSQL_DATABASE=mydb
+    - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  ports:
+    - 3306:3306
+  networks:
+    - spring-mysql
 volumes:
   db-data:
 # secrets:
 #   db-password:
 #     file: db/password.txt
 networks:
-  spring-postgres:
+  spring-mysql:
